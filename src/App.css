@@ -1,0 +1,7 @@
+.taskListItem {
+  color: red;
+}
+
+.taskListItem.complete {
+  color: green;
+}
