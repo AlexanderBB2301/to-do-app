@@ -1,46 +1,47 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
-import { sub } from "date-fns";
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [
-  {
-    id: 0,
-    task: "Dummy task",
-    date: sub(new Date(), { minutes: 3 }).toISOString(),
-    completed: false,
-    priority: "Medium",
-  },
-  {
-    id: 1,
-    task: "Dummy task 2",
-    date: sub(new Date(), { minutes: 6 }).toISOString(),
-    completed: false,
-    priority: "Low",
-  },
-];
+const initialState = [];
 
 const tasksSlice = createSlice({
   name: "tasks",
   initialState,
   reducers: {
-    taskAdded: {
-      reducer(state, action) {
-        state.push(action.payload);
-      },
-      prepare(task, date, completed, priority) {
-        return {
-          payload: {
-            id: nanoid(),
-            task,
-            date: new Date().toISOString(),
-            completed,
-            priority,
-          },
-        };
-      },
+    //add tasks
+    addTasks: (state, action) => {
+      state.push(action.payload);
+      return state;
+    },
+    //edit tasks
+    editTasks: (state, action) => {
+      return state.map((task) => {
+        if (task.id === action.payload.id) {
+          return {
+            ...task,
+            item: action.payload.item,
+          };
+        }
+        return task;
+      });
+    },
+    //completed tasks
+    completedTasks: (state, action) => {
+      return state.map((task) => {
+        if (task.id === action.payload) {
+          return {
+            ...task,
+            completed: true,
+          };
+        }
+        return task;
+      });
+    },
+    //delete tasks
+    deleteTasks: (state, action) => {
+      return state.filter((item) => item.id !== action.payload);
     },
   },
 });
 
-export const selectAllTasks = (state) => state.tasks;
-export const { taskAdded } = tasksSlice.actions;
-export default tasksSlice.reducer;
+export const { addTasks, editTasks, completedTasks, deleteTasks } =
+  tasksSlice.actions;
+export const reducer = tasksSlice.reducer;

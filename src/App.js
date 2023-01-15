@@ -1,12 +1,13 @@
-import AddATask from "./components/AddATask";
-import TaskList from "./components/TaskList";
+import "./App.css";
+import Tasks from "./components/Tasks";
+import UserView from "./components/UserView";
 
 function App() {
   return (
     <>
       <main className="App">
-        <AddATask />
-        <TaskList />
+        <Tasks />
+        <UserView />
       </main>
     </>
   );
